@@ -12,20 +12,29 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-
-
-
 public class A2_CrossDomainPolicy {
 
     WebDriver driver;
+    DesiredCapabilities cap;
+
+    @BeforeClass
+    public void setup()
+    {
+        System.setProperty("webdriver.gecko.driver","/Users/pkrawat/Downloads/geckodriver");
+         cap = DesiredCapabilities.firefox();
+
+
+    }
+
 
     @Test
     public void test() throws InterruptedException {
-
         /*
          * IF we have created a firefox profile say "webdriverProfile" to be
          * used while running automation then we can access or read that in code
@@ -37,7 +46,6 @@ public class A2_CrossDomainPolicy {
          * myprofile.setAcceptUntrustedCertificates(true);
          * driver=new FirefoxDriver(myprofile);
          *
-         *
          */
 
         // IMP!!!!!!! The below command will not create a new profile but it
@@ -45,11 +53,7 @@ public class A2_CrossDomainPolicy {
         // set the preferences so that we can run the test as per our need
 
 
-        System.setProperty("webdriver.gecko.driver","/Users/parveenrawat/Downloads/geckodriver");
-
-        DesiredCapabilities cap = DesiredCapabilities.firefox();
         FirefoxProfile objectOfCurrentProfile = new FirefoxProfile();
-
         FirefoxOptions opt=new FirefoxOptions();
 
 
@@ -58,41 +62,20 @@ public class A2_CrossDomainPolicy {
         opt.setAcceptInsecureCerts(true);//profile.setAcceptUntrustedCertificates(true); deprecated
         opt.setBinary("/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox");
 
-
-        /*
-        INFO: Using `new FirefoxOptions()` is preferred to `DesiredCapabilities.firefox()`
-         */
-
-
         opt.merge(cap);
-
-
         try {
-
-
-
-
-
             driver=new FirefoxDriver(opt);     // deprecated  driver = new FirefoxDriver(cap);
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
             // ((RemoteWebDriver)driver)
-
             System.out.println(((RemoteWebDriver) driver).getCapabilities());
-
             // driver.get("http://blog.codinghorror.com/double-click-must-die/");
-
             driver.get("http://www.w3schools.com/");
             Actions acc= new Actions(driver);
-
             //acc.moveToElement(driver.findElement(By.xpath("//a[contains(.,'Categories')]"))).perform();
             acc.moveToElement(driver.findElement(By.xpath("//a[contains(.,'Categories')]"))).click().perform();
-
-
             //new Actions(driver).moveToElement(driver.findElement(By.xpath("//a[contains(.,'Categories')]"))).perform();
 
             driver.findElement(By.xpath("//a[contains(@href,'Grenade')]")).click();
-
             driver.findElement(By.xpath("//input[@name='txtnesletetr']")).clear();
             driver.findElement(By.xpath("//input[@name='txtnesletetr']")).sendKeys(Keys.getKeyFromUnicode('a'));
 
@@ -101,7 +84,6 @@ public class A2_CrossDomainPolicy {
             driver.findElement(By.xpath("//input[@value='Subscribe']")).click();
 
             Alert alt = driver.switchTo().alert();
-
             alt.accept();
 
             // Thread.sleep..here timein milliseconds..

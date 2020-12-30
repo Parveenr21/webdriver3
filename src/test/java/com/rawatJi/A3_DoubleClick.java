@@ -25,7 +25,7 @@ public class A3_DoubleClick {
     @BeforeSuite
     public void setup()
     {
-        System.setProperty("webdriver.gecko.driver","/Users/parveenrawat/Downloads/geckodriver");
+        System.setProperty("webdriver.gecko.driver","/Users/pkrawat/Downloads/geckodriver");
 
         DesiredCapabilities cap= DesiredCapabilities.firefox();
         cap.setCapability("marionette", true); // RUN by keeping it true only..though..implicitly it is TRUE only.
